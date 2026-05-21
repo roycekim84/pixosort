@@ -6,15 +6,16 @@
 - Clean
 - Warm
 - Pixel art
+- Sand-like
+- Satisfying
 - Toy-like
-- Light puzzle game
 - Clear readability
 
 ## Visual Direction
 
-PixoSort should feel like a cozy pixel-art puzzle toy rather than a heavy competitive game.
+PixoSort should feel like a cozy pixel-art puzzle toy where images gently drain like sand through a single hole.
 
-The interface should be bright, soft, and readable. Pixel art is the main reward, so the UI must not overpower the stage image.
+The interface should be bright, soft, and readable. The main visual focus is the framed pixel image collapsing and draining into color tubes.
 
 ## Art Style
 
@@ -38,6 +39,7 @@ Recommended UI feeling:
 - Friendly stage cards
 - Clear progress indicators
 - Minimal text during gameplay
+- One-hand portrait layout
 
 ## Color Direction
 
@@ -61,88 +63,122 @@ Use highly readable fonts for UI text.
 Guidelines:
 
 - Avoid tiny text
-- Use bold numbers for move count and stars
+- Use bold numbers for progress and stars
 - Korean and English should both remain readable
 - Pixel fonts can be used only for headings or decorative labels if readability is not harmed
 
+## Screen Count Direction
+
+Keep real page count small.
+
+Core pages:
+
+1. HomeStageScreen
+2. PuzzleScreen
+3. CollectionScreen
+4. PhotoPuzzleScreen
+
+Use dialogs or bottom sheets for:
+
+- Clear result
+- Pause
+- Settings
+- Image detail
+- Photo puzzle options
+
 ## Main Screen Design
 
-### Home
+### HomeStageScreen
 
-Purpose: Give immediate access to play.
+Purpose: Start quickly without too many screens.
 
 Elements:
 
 - Logo/title
-- Main start button
+- Settings button
+- Difficulty tabs: Level 1 to Level 10
+- Stage cards for selected difficulty
 - Photo puzzle button
 - Collection button
-- Settings button
-- Small animated pixel art mascot or stage preview
 
-### Difficulty Select
+The old separate Difficulty Select and Stage Select screens should be merged into this one screen.
 
-Purpose: Show 10 levels clearly.
+### PuzzleScreen
 
-Elements:
+Purpose: Focus on the drain-hole sorting mechanic.
 
-- Level cards
-- Difficulty label
-- Clear count, e.g. 7/10
-- Lock state
-- Theme thumbnail
+Layout recommendation for portrait mobile:
 
-### Stage Select
+- Top: progress, rotation count, pause
+- Middle: framed pixel art image
+- Bottom center of frame: single drain hole
+- Below frame: active tube under the hole
+- Bottom: tube carousel or tube row
+- Optional: left/right rotate buttons
 
-Purpose: Pick one of 10 stages in a level.
+Important visual rules:
 
-Elements:
+- The drain hole must be visually obvious.
+- The active tube must align clearly under the hole.
+- The current hole pixel color should be easy to read.
+- When colors match, pixels should drain smoothly into the tube.
+- When colors mismatch, the game should visibly pause or show a soft blocked feedback.
 
-- Stage card grid
-- Image silhouette or completed thumbnail
-- Star count
-- Clear state
+### ClearResultDialog
 
-### Puzzle Screen
-
-Purpose: Focus on sorting and restoration.
-
-Layout recommendation:
-
-- Top: move count, undo, hint, restart
-- Middle: pixel art board
-- Bottom: tubes
-
-Important:
-
-- Tube blocks must be visually clear.
-- Current selected tube should have a clear highlight.
-- Completed colors should create satisfying board animation.
-
-### Result Screen
-
-Purpose: Celebrate the restored image.
+Purpose: Celebrate color separation completion.
 
 Elements:
 
-- Completed pixel art large preview
+- Original completed pixel art preview
 - Stage title
 - Stars
-- Move count
+- Rotation count
 - Time
-- Save/share button
 - Next stage button
+- Retry button
+- Collection button
 
-### Collection
+### CollectionScreen
 
 Purpose: Make completed images feel valuable.
 
 Elements:
 
-- Grid of restored images
+- Grid of completed images
 - Difficulty/theme filter
 - Locked silhouettes
 - Detail modal with save/share
+
+### PhotoPuzzleScreen
+
+Purpose: Convert a user photo into a drain puzzle.
+
+Elements:
+
+- Photo picker
+- Square preview
+- Difficulty option chips
+- Pixelated preview
+- Generate button
+
+## Puzzle Screen Wireframe
+
+```txt
+┌────────────────────┐
+│ Progress   Rotations│
+├────────────────────┤
+│                    │
+│   Framed Pixel Art  │
+│   image collapses   │
+│                    │
+│          ▼ hole     │
+├──────────●─────────┤
+│          ↓          │
+│       Active Tube   │
+│   ◀  tubes row  ▶   │
+└────────────────────┘
+```
 
 ## Animation Direction
 
@@ -150,13 +186,36 @@ Keep animations short and tactile.
 
 Suggested animations:
 
-- Tube select bounce
-- Block move arc or slide
-- Invalid move shake
-- Color completion sparkle
-- Pixel fill wave
+- Pixel drain movement from hole to tube
+- Tube fill rising or dot count increasing
+- Tube carousel snap rotation
+- Blocked mismatch pulse
+- Color complete sparkle
 - Stage clear pop
 - Collection unlock stamp
+
+## Pixel Drain Visual
+
+Pixels should feel like chunky grains of color, not liquid.
+
+Recommended treatment:
+
+- The frame holds a pixel grid.
+- The bottom-center hole has a small shadow or funnel indicator.
+- Drained pixels move downward into the active tube.
+- The original image gradually becomes empty and collapses under gravity.
+- Tubes fill with a color level or small pixel particles.
+
+## Tube Visual
+
+Each tube corresponds to one color.
+
+Tube display options:
+
+- Color label on tube cap
+- Tube fill level based on collected count
+- Small count text like 7/18 if needed
+- Completion checkmark or sparkle
 
 ## Pixel Art Content Direction
 
@@ -186,25 +245,26 @@ The mascot should not dominate the game. It should support the cozy tone.
 App icon should communicate:
 
 - Pixel art
+- One-hole drain
 - Color sorting
-- Puzzle
+- Test tubes
 
 Possible icon concepts:
 
-1. A test tube with stacked pixel colors forming a small cat face
-2. A pixel palette with sorted color blocks
-3. A cute pixel cat holding color tubes
-4. A square pixel image partially restored with color tubes below
+1. A pixel image draining into a test tube
+2. A test tube under a small pixel funnel
+3. A cute pixel cat holding a color tube under falling pixels
+4. A framed pixel apple with one color stream draining down
 
 ## Store Screenshot Direction
 
 Screenshot themes:
 
-1. Sort colors, reveal pixel art
-2. 100 cute stages
-3. Turn your photo into a puzzle
-4. Collect restored pixel art
-5. Easy to play, satisfying to complete
+1. Watch pixel art drain like sand
+2. Match tubes to sort every color
+3. 100 cute pixel stages
+4. Turn your photo into a puzzle
+5. Collect completed pixel art
 
 ## Design Constraints
 
@@ -212,8 +272,9 @@ Screenshot themes:
 - Must work in Korean and English
 - Must avoid UI clutter during puzzle play
 - Pixel art should remain sharp
-- Use consistent spacing and rounded card layout
+- The drain hole and active tube alignment must be clear
 - Avoid hard-to-distinguish similar colors in early stages
+- Keep controls usable with one hand
 
 ## Accessibility Notes
 
@@ -221,7 +282,7 @@ Color-only gameplay can be difficult for some users.
 
 Possible supports:
 
-- Optional color symbols on blocks
+- Optional symbols on tubes and hole color indicator
 - High contrast mode
 - Larger tube mode
 - Reduced animation option
