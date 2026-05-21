@@ -35,4 +35,5 @@ PixoSort is a Flutter mobile puzzle game where a pixel art image drains through 
 - [Design Plan](docs/03_design_plan.md)
 - [Roadmap](docs/04_roadmap.md)
 - [Screen Specification](docs/05_screen_spec.md)
+- [UI Mockup Reference](docs/design/ui_mockup_reference.md)
 - [Codex Agent Instructions](AGENTS.md)
