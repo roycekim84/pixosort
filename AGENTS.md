@@ -42,6 +42,7 @@ Read these before implementation:
 - docs/02_implementation_plan.md
 - docs/03_design_plan.md
 - docs/04_roadmap.md
+- docs/05_screen_spec.md
 
 ## Suggested Folder Structure
 
@@ -143,6 +144,27 @@ MVP gravity:
 - Preserve horizontal position.
 
 Do not implement diagonal sand flow until after the core prototype feels good.
+
+## Screen Implementation Requirements
+
+Follow docs/05_screen_spec.md for screen structure.
+
+Core pages:
+
+- HomeStageScreen
+- PuzzleScreen
+- CollectionScreen
+- PhotoPuzzleScreen
+
+Supporting overlays:
+
+- ClearResultDialog
+- PauseDialog
+- SettingsBottomSheet
+- ImageDetailDialog
+- PhotoDifficultyBottomSheet
+
+Do not split Home, Difficulty Select, and Stage Select into separate pages unless explicitly requested.
 
 ## First Implementation Milestone
 
