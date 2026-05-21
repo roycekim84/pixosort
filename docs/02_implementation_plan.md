@@ -8,16 +8,22 @@
 - No required backend for MVP
 - Local persistence for progress and settings
 
-Suggested packages can be decided during implementation, but the first version should avoid unnecessary dependencies.
+The first version should avoid unnecessary dependencies. Keep the puzzle engine testable without Flutter UI.
 
 ## Architecture Direction
 
 Use a simple layered structure:
 
 - Presentation: screens, widgets, animations
-- Domain: puzzle rules, stage models, progress models
+- Domain: stage models, pixel grid, drain rules, gravity rules, tube models
 - Application: game controller, stage loading, photo puzzle generation flow
 - Infrastructure: local storage, image processing adapters, ads/IAP adapters
+
+## Core Mechanic Summary
+
+A pixel art image is represented as a 2D grid. The frame has one drain hole at the bottom center. Pixels are pulled toward the hole by grid-based gravity.
+
+If the active tube color matches the pixel currently at the drain hole, that pixel drains into the tube. Draining continues automatically while the hole pixel color remains the same. If the hole pixel color changes, draining pauses until the player activates the matching tube.
 
 ## Core Data Models
 
@@ -35,63 +41,117 @@ Fields:
 - width
 - height
 - palette
-- pixelMap
-- tubeCapacity
-- initialTubes
+- initialPixelMap
+- drainHoleX
+- drainHoleY
 - previewMode
+- targetDrainSpeed
+- targetRotationCount
 
-### PixelMap
+### PaletteColor
 
-A 2D grid of palette indexes.
+Fields:
 
-Example:
+- index
+- hex
+- name
+- symbol optional
 
-```json
-[
-  [0, 0, 1, 1],
-  [0, 2, 2, 1],
-  [0, 2, 2, 1],
-  [0, 0, 1, 1]
-]
-```
+### PixelCell
 
-### ColorBlock
+Represents one cell in the pixel grid.
 
-Represents one movable color unit in a tube.
+Fields:
+
+- colorIndex nullable
+- isEmpty
+
+A null colorIndex means the cell is empty after pixels have drained.
+
+### PixelGrid
+
+A 2D grid of PixelCell values.
+
+Responsibilities:
+
+- Read the color at the drain hole
+- Remove the pixel at the drain hole
+- Apply gravity after removal
+- Count remaining pixels by color
+- Determine whether the grid is empty
+
+### DrainHole
+
+Fields:
+
+- x
+- y
+
+MVP rule:
+
+- The drain hole is fixed at bottom center.
+
+### ColorTube
+
+Each tube corresponds to one palette color.
 
 Fields:
 
 - colorIndex
-- sourcePixelCount
+- collectedCount
+- targetCount
+- isComplete
 
-MVP can treat every block as a simple color unit. Later versions can store area size or pixel group metadata.
+Important rule:
 
-### Tube
+- Color count equals tube count.
+- There are no helper tubes in the core mechanic.
+
+### TubeCarousel
+
+Represents the tube selector under the drain hole.
 
 Fields:
 
-- id
-- capacity
-- blocks
+- tubes
+- activeTubeIndex
+- rotationCount
 
-Rules:
+Responsibilities:
 
-- Blocks are stacked bottom to top.
-- A block can move only from the top of a tube.
-- A block can move into an empty tube or onto the same color.
-- Target tube must have enough capacity.
+- Rotate left
+- Rotate right
+- Select tube directly if the UI supports tapping
+- Return active tube
 
-### PuzzleState
+### DrainState
 
 Fields:
 
 - stageId
+- pixelGrid
 - tubes
-- completedColorIndexes
-- moveCount
+- activeTubeIndex
+- drainedPixelCount
+- totalPixelCount
+- rotationCount
 - elapsedTime
-- undoStack
+- isDraining
+- isPausedBecauseColorMismatch
 - isCompleted
+
+### DrainResult
+
+Result of one drain tick.
+
+Fields:
+
+- drainedColorIndex nullable
+- didDrain
+- didCompleteTube
+- completedColorIndex nullable
+- isBlockedByColorMismatch
+- isStageCompleted
 
 ### UserProgress
 
@@ -99,7 +159,7 @@ Fields:
 
 - clearedStageIds
 - stageStars
-- bestMoveCounts
+- bestRotationCounts
 - bestTimes
 - unlockedDifficulties
 - collectionItems
@@ -121,73 +181,105 @@ assets/stages/
 
 Each file contains 10 stage definitions.
 
-## Puzzle Generation From Pixel Art
+Stage JSON should store compact pixel maps using palette indexes.
 
-For built-in stages:
+Example:
 
-1. Load palette and pixel map.
-2. Count required color blocks.
-3. Convert color counts into tube blocks.
-4. Shuffle blocks into initial tubes while ensuring the puzzle is solvable.
-5. Store or generate initialTubes.
+```json
+{
+  "id": "level_01_apple",
+  "difficulty": 1,
+  "stageNumber": 1,
+  "title": "Apple",
+  "theme": "simple_icon",
+  "width": 8,
+  "height": 8,
+  "palette": ["#000000", "#e74c3c", "#6ab04c"],
+  "pixelMap": [
+    [null, null, 2, 2, null, null, null, null],
+    [null, 1, 1, 1, 1, null, null, null],
+    [1, 1, 1, 1, 1, 1, null, null]
+  ],
+  "drainHoleX": 4,
+  "drainHoleY": 7
+}
+```
 
-MVP recommendation:
+## Drain Engine
 
-- Pre-generate initialTubes in stage JSON.
-- Do not rely on runtime random generation for built-in stages.
-- This makes balancing easier and avoids unsolvable puzzles.
+### Drain Tick
 
-## Runtime Puzzle Rules
+One drain tick attempts to drain the pixel at the hole.
 
-### Move Validation
+Algorithm:
 
-A move is valid when:
+1. Read holeColor from PixelGrid at DrainHole.
+2. If holeColor is null, apply gravity and check again.
+3. Get activeTube from TubeCarousel.
+4. If activeTube.colorIndex != holeColor, stop and return blocked result.
+5. Remove the hole pixel from the grid.
+6. Increase activeTube.collectedCount.
+7. Apply gravity to the grid.
+8. Check whether the active tube is complete.
+9. Check whether all pixels are drained.
+10. Return DrainResult.
 
-- Source tube is not empty.
-- Destination tube is not full.
-- Source and destination are different.
-- Destination is empty, or destination top color equals source top color.
+### Auto Drain
 
-### Move Execution
+When active tube color matches the hole color, the engine can continue ticking at a fixed drain speed.
 
-MVP can move one block at a time.
+When the hole color changes, auto-drain pauses until the player changes the active tube.
 
-Later enhancement:
+## Gravity Resolver
 
-- Move consecutive same-color blocks together if the destination has enough space.
+MVP should use grid-based gravity, not a full physics engine.
 
-### Color Completion
+Recommended first implementation:
 
-A color is completed when all blocks of that color are gathered into a valid tube group.
+- After a pixel is removed, apply vertical gravity per column.
+- In each column, non-empty pixels fall downward into empty cells.
+- Preserve horizontal position.
 
-MVP rule:
+This is simple, predictable, and easy to test.
 
-- A tube is complete if it is full and every block has the same color.
-- When complete, mark that color as restored.
+Later experiments can add sideways collapse or sand-like diagonal movement, but MVP should stay deterministic.
 
-Advanced rule for later:
+## Tube Selection Controls
 
-- Support colors requiring multiple complete tubes when pixel count is high.
+Supported controls:
 
-## Pixel Art Restoration
+- Swipe left/right to rotate tube carousel
+- Optional left/right buttons
+- Optional direct tap on visible tube
 
-The board uses the stage pixelMap.
+MVP can start with left/right buttons plus direct tap.
 
-Display rules:
+## Completion Rules
 
-- If a color is not completed, render that pixel as hidden, dimmed, or silhouette.
-- If a color is completed, render the actual palette color.
-- When a color becomes completed, animate all pixels of that color filling in.
+A color tube is complete when:
+
+- collectedCount == targetCount for that color
+
+A stage is complete when:
+
+- all tubes are complete
+- or the pixel grid has no remaining pixels
+
+Both should be true in a valid stage.
 
 ## Star Rating
 
 Possible first version:
 
-- 3 stars: cleared under target move count
-- 2 stars: cleared under relaxed move count
+- 3 stars: cleared under target rotation count
+- 2 stars: cleared under relaxed rotation count
 - 1 star: cleared
 
-Each stage definition can include targetMoveCount later.
+Alternative later metrics:
+
+- clear time
+- number of tube switches
+- number of hints used
 
 ## Photo Puzzle Mode
 
@@ -198,9 +290,9 @@ Each stage definition can include targetMoveCount later.
 3. Resize to target resolution.
 4. Extract palette with limited color count.
 5. Quantize image to palette.
-6. Build pixelMap.
-7. Generate tubes from palette counts.
-8. Start puzzle.
+6. Build initialPixelMap.
+7. Count pixels per color to create ColorTube target counts.
+8. Start one-hole drain puzzle.
 9. Save generated puzzle metadata locally if needed.
 
 ### Suggested Options
@@ -224,6 +316,7 @@ Important steps:
 - Remove near-duplicate colors
 - Optionally boost contrast before quantization
 - Avoid too many similar colors in one puzzle
+- Ensure color count is suitable for mobile tube selection
 
 ## Local Storage
 
@@ -247,43 +340,34 @@ MVP can use fake implementations until release preparation.
 
 ## Screens
 
-### HomeScreen
+### HomeStageScreen
 
-- Start
-- Photo Puzzle
-- Collection
-- Settings
+Combined home and stage selection screen.
 
-### DifficultySelectScreen
-
-- Level cards
-- Clear counts
-- Locked/unlocked state
-
-### StageSelectScreen
-
-- 10 stage cards for selected difficulty
-- Preview or silhouette
-- Star count
+- Logo/title
+- Difficulty tabs
+- Stage cards
+- Photo puzzle button
+- Collection button
+- Settings button
 
 ### PuzzleScreen
 
-- Pixel board
-- Tube area
-- Move count
-- Undo
-- Hint
-- Restart
-- Pause/settings
+- Top status bar: progress, rotations, pause
+- Center: framed pixel image
+- Bottom center of frame: drain hole
+- Below frame: active tube and tube carousel
+- Optional next color indicator if enabled
 
-### ResultScreen
+### ClearResultDialog
 
-- Completed pixel art
-- Move count
-- Time
+- Completed original pixel art
 - Stars
-- Save/share
+- Rotation count
+- Time
 - Next stage
+- Retry
+- Collection
 
 ### CollectionScreen
 
@@ -302,29 +386,38 @@ MVP can use fake implementations until release preparation.
 
 Build in this order:
 
-1. Static stage loading
-2. Tube rendering
-3. Move rules
-4. Win detection
-5. Pixel board restoration
-6. Result screen
-7. Local progress
-8. Stage select
-9. Collection basics
-10. Photo puzzle prototype
+1. Static hardcoded pixel grid
+2. Drain hole rendering
+3. Color tube rendering
+4. Tube selection/rotation
+5. DrainEngine tick logic
+6. Grid gravity resolver
+7. Auto-drain while colors match
+8. Block/pause when colors mismatch
+9. Win detection
+10. Clear result dialog
+11. JSON stage loading
+12. Local progress
+13. Stage select
+14. Collection basics
+15. Photo puzzle prototype
 
 ## Testing Focus
 
-- Move validation
-- Undo behavior
-- Win detection
-- Stage loading
-- Completion state
-- Local progress save/load
+- PixelGrid hole color read
+- Pixel removal
+- Gravity resolution
+- Drain tick success
+- Drain blocked by color mismatch
+- Tube completion
+- Stage completion
+- Tube carousel rotation
+- Stage JSON parsing
 - Photo quantization output dimensions
 
 ## Non-goals For MVP
 
+- Full physics engine
 - Online ranking
 - User accounts
 - Cloud save
