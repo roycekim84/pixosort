@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .bg{fill:#fbf7ee}.phone{fill:#fff8eb;stroke:#1f1a17;stroke-width:3}.panel{fill:#f3ead8;stroke:#d8c5a8;stroke-width:2}.title{font-family:Arial, sans-serif;font-size:26px;font-weight:700;fill:#271f1a}.small{font-family:Arial, sans-serif;font-size:15px;fill:#3a3028}.label{font-family:Arial, sans-serif;font-size:16px;font-weight:700;fill:#3a3028}.pixel{shape-rendering:crispEdges}.purple{fill:#8057c8}.green{fill:#3ea866}.blue{fill:#2f78bd}.orange{fill:#f08a32}.red{fill:#d94c4c}.dark{fill:#333}.cream{fill:#fff1d3}.tube{fill:#f7f4ee;stroke:#333;stroke-width:3}.star{fill:#f7b733;stroke:#d49113;stroke-width:2}.lock{fill:#6d5f50}.muted{fill:#d7c8ad}.hole{fill:#23201c}.note{font-family:Arial, sans-serif;font-size:14px;fill:#6a5b4c}
+    </style>
+  </defs>
+  <rect width="1600" height="900" class="bg"/>
+
+  <text x="40" y="38" class="title">1. 홈 / 스테이지 선택 화면</text>
+  <text x="435" y="38" class="title">2. 퍼즐 플레이 화면</text>
+  <text x="830" y="38" class="title">3. 결과 팝업</text>
+  <text x="1210" y="38" class="title">4. 컬렉션 화면</text>
+
+  <!-- Home -->
+  <rect x="35" y="65" width="330" height="590" rx="24" class="phone"/>
+  <rect x="60" y="90" width="36" height="36" rx="8" class="panel"/><text x="72" y="114" class="label">⚙</text>
+  <text x="105" y="165" class="title" style="font-size:52px">PixoSort</text>
+  <text x="117" y="195" class="small">도트 색상 분리 퍼즐</text>
+  <rect x="115" y="215" width="160" height="110" rx="8" fill="#b7d9e7" stroke="#96785c"/>
+  <rect x="160" y="248" width="24" height="24" class="pixel" fill="#ffffff"/><rect x="184" y="248" width="24" height="24" class="pixel" fill="#333"/><rect x="208" y="248" width="24" height="24" class="pixel" fill="#f28d2f"/><rect x="160" y="272" width="72" height="24" class="pixel" fill="#ffffff"/><rect x="184" y="296" width="48" height="24" class="pixel" fill="#8b5a35"/>
+  <rect x="35" y="335" width="330" height="320" rx="24" class="cream" stroke="#d8c5a8"/>
+  <text x="60" y="365" class="label">난이도</text>
+  <rect x="60" y="382" width="52" height="52" rx="8" class="purple"/><text x="72" y="413" fill="white" class="label">Lv.1</text>
+  <rect x="122" y="382" width="52" height="52" rx="8" class="panel"/><text x="134" y="413" class="label">Lv.2</text>
+  <rect x="184" y="382" width="52" height="52" rx="8" class="panel"/><text x="196" y="413" class="label">Lv.3</text>
+  <rect x="246" y="382" width="52" height="52" rx="8" class="panel"/><text x="258" y="413" class="label">Lv.4</text>
+  <text x="60" y="465" class="label">스테이지 10/10</text>
+  <g transform="translate(60,480)">
+    <rect width="48" height="48" rx="7" class="panel"/><text x="19" y="29" class="label">1</text><text x="8" y="44" class="note">★★★</text>
+    <rect x="58" width="48" height="48" rx="7" class="panel"/><text x="77" y="29" class="label">2</text><text x="66" y="44" class="note">★★★</text>
+    <rect x="116" width="48" height="48" rx="7" class="panel"/><text x="135" y="29" class="label">3</text><text x="124" y="44" class="note">★★★</text>
+    <rect x="174" width="48" height="48" rx="7" class="panel"/><text x="193" y="29" class="label">4</text><text x="182" y="44" class="note">★★☆</text>
+    <rect x="232" width="48" height="48" rx="7" class="panel"/><text x="251" y="29" class="label">5</text><text x="240" y="44" class="note">★☆☆</text>
+    <rect y="58" width="48" height="48" rx="7" class="panel"/><text x="19" y="87" class="label">6</text><text x="8" y="102" class="note">★☆☆</text>
+    <rect x="58" y="58" width="48" height="48" rx="7" class="panel"/><text x="77" y="87" class="label">7</text><text x="66" y="102" class="note">☆☆☆</text>
+    <rect x="116" y="58" width="48" height="48" rx="7" class="panel"/><text x="135" y="87" class="label">8</text><text x="124" y="102" class="note">☆☆☆</text>
+    <rect x="174" y="58" width="48" height="48" rx="7" class="panel"/><text x="193" y="87" class="label">9</text><text x="182" y="102" class="note">☆☆☆</text>
+    <rect x="232" y="58" width="48" height="48" rx="7" class="panel"/><text x="247" y="87" class="label">10</text><text x="240" y="102" class="note">☆☆☆</text>
+  </g>
+  <rect x="60" y="600" width="130" height="42" rx="8" class="green"/><text x="88" y="626" fill="white" class="label">내 사진 퍼즐</text>
+  <rect x="205" y="600" width="130" height="42" rx="8" class="blue"/><text x="246" y="626" fill="white" class="label">컬렉션</text>
+
+  <!-- Puzzle -->
+  <rect x="425" y="65" width="330" height="590" rx="24" class="phone"/>
+  <text x="520" y="110" class="title" style="font-size:24px">Lv.1 - 3</text>
+  <rect x="450" y="130" width="72" height="38" rx="6" fill="#705331"/><text x="468" y="154" fill="white" class="small">회전 28</text>
+  <rect x="535" y="130" width="72" height="38" rx="6" fill="#705331"/><text x="553" y="154" fill="white" class="small">진행 32%</text>
+  <rect x="620" y="142" width="95" height="12" rx="6" fill="#e7dbc9"/><rect x="620" y="142" width="42" height="12" rx="6" class="purple"/>
+  <rect x="455" y="185" width="270" height="250" rx="8" fill="#9bd3e7" stroke="#8a6a45" stroke-width="8"/>
+  <rect x="485" y="220" width="30" height="30" class="pixel" fill="#fff"/><rect x="515" y="220" width="30" height="30" class="pixel" fill="#333"/><rect x="545" y="220" width="30" height="30" class="pixel" fill="#f28d2f"/><rect x="575" y="220" width="30" height="30" class="pixel" fill="#fff"/>
+  <rect x="485" y="250" width="150" height="30" class="pixel" fill="#fff"/><rect x="635" y="250" width="30" height="30" class="pixel" fill="#333"/>
+  <rect x="485" y="280" width="210" height="30" class="pixel" fill="#fff"/><rect x="515" y="310" width="150" height="30" class="pixel" fill="#333"/>
+  <rect x="545" y="340" width="90" height="30" class="pixel" fill="#8b5a35"/>
+  <polygon points="590,437 578,457 602,457" class="hole"/>
+  <circle cx="590" cy="458" r="11" class="hole"/>
+  <rect x="582" y="470" width="16" height="80" class="pixel" fill="#f1c232"/><rect x="582" y="550" width="16" height="20" class="pixel" fill="#f1a232"/>
+  <rect x="520" y="500" width="138" height="118" rx="30" fill="#eee" stroke="#333" stroke-width="4"/><rect x="534" y="540" width="110" height="66" rx="18" fill="#f1c232"/><text x="565" y="535" class="label">노랑</text><text x="564" y="575" fill="white" class="title">18/32</text>
+  <text x="485" y="540" class="title">←</text><text x="680" y="540" class="title">→</text>
+  <g transform="translate(455,610)">
+    <rect width="38" height="70" rx="12" class="tube"/><rect x="5" y="42" width="28" height="23" class="red"/><text x="4" y="88" class="small">빨강</text>
+    <rect x="58" width="38" height="70" rx="12" class="tube"/><rect x="63" y="40" width="28" height="25" class="blue"/><text x="62" y="88" class="small">파랑</text>
+    <rect x="222" width="38" height="70" rx="12" class="tube"/><rect x="227" y="48" width="28" height="17" class="green"/><text x="226" y="88" class="small">초록</text>
+    <rect x="280" width="38" height="70" rx="12" class="tube"/><rect x="285" y="50" width="28" height="15" class="dark"/><text x="284" y="88" class="small">검정</text>
+  </g>
+
+  <!-- Result -->
+  <rect x="815" y="65" width="330" height="590" rx="24" fill="#202020" stroke="#111" stroke-width="3"/>
+  <rect x="855" y="130" width="250" height="430" rx="18" fill="#fff8eb" stroke="#cdbb9f" stroke-width="2"/>
+  <rect x="880" y="115" width="200" height="58" rx="8" class="purple"/><text x="902" y="152" fill="white" class="title">STAGE CLEAR!</text>
+  <polygon points="930,200 940,225 968,225 945,240 955,268 930,250 905,268 915,240 892,225 920,225" class="star"/>
+  <polygon points="985,200 995,225 1023,225 1000,240 1010,268 985,250 960,268 970,240 947,225 975,225" class="star"/>
+  <polygon points="1040,200 1050,225 1078,225 1055,240 1065,268 1040,250 1015,268 1025,240 1002,225 1030,225" class="star"/>
+  <rect x="895" y="300" width="170" height="110" rx="8" fill="#9bd3e7" stroke="#777"/>
+  <rect x="940" y="330" width="30" height="30" class="pixel" fill="#fff"/><rect x="970" y="330" width="30" height="30" class="pixel" fill="#333"/><rect x="1000" y="330" width="30" height="30" class="pixel" fill="#f28d2f"/>
+  <text x="947" y="450" class="title" style="font-size:24px">Lv.1 - 3</text><text x="954" y="482" class="label">완성!</text>
+  <rect x="885" y="505" width="80" height="38" rx="8" class="purple"/><text x="915" y="530" fill="white" class="label">홈</text>
+  <rect x="975" y="505" width="110" height="38" rx="8" class="green"/><text x="996" y="530" fill="white" class="label">다음 스테이지</text>
+
+  <!-- Collection -->
+  <rect x="1205" y="65" width="330" height="590" rx="24" class="phone"/>
+  <text x="1320" y="120" class="title" style="font-size:24px">컬렉션</text><text x="1450" y="120" class="small">완성 18/100</text>
+  <rect x="1230" y="150" width="72" height="34" rx="8" class="purple"/><text x="1251" y="172" fill="white" class="small">전체</text>
+  <rect x="1315" y="150" width="72" height="34" rx="8" class="panel"/><text x="1332" y="172" class="small">Level 1</text>
+  <rect x="1400" y="150" width="72" height="34" rx="8" class="panel"/><text x="1417" y="172" class="small">Level 2</text>
+  <g transform="translate(1230,205)">
+    <rect width="80" height="80" rx="8" fill="#9bd3e7" stroke="#777"/><rect x="18" y="18" width="18" height="18" fill="#fff"/><rect x="36" y="18" width="18" height="18" fill="#333"/><rect x="54" y="18" width="18" height="18" fill="#f28d2f"/><text x="14" y="76" class="note">★★★</text>
+    <rect x="100" width="80" height="80" rx="8" fill="#f4c86a" stroke="#777"/><rect x="116" y="32" width="48" height="20" fill="#8b5a35"/><text x="114" y="76" class="note">★★☆</text>
+    <rect x="200" width="80" height="80" rx="8" fill="#7ec8e3" stroke="#777"/><rect x="230" y="18" width="22" height="46" fill="#fff"/><text x="214" y="76" class="note">★★★</text>
+    <rect y="100" width="80" height="80" rx="8" fill="#b2d59d" stroke="#777"/><rect x="25" y="28" width="35" height="35" fill="#d9b18c"/><text x="14" y="176" class="note">★☆☆</text>
+    <rect x="100" y="100" width="80" height="80" rx="8" fill="#f0b56d" stroke="#777"/><rect x="120" y="128" width="40" height="35" fill="#8b5a35"/><text x="114" y="176" class="note">★★★</text>
+    <rect x="200" y="100" width="80" height="80" rx="8" fill="#fff0df" stroke="#777"/><circle cx="240" cy="140" r="24" fill="#fff" stroke="#bbb"/><text x="214" y="176" class="note">★★☆</text>
+    <rect y="200" width="80" height="80" rx="8" fill="#ef9fa8" stroke="#777"/><circle cx="40" cy="236" r="28" fill="#e57888"/><text x="14" y="276" class="note">★★★</text>
+    <rect x="100" y="200" width="80" height="80" rx="8" class="lock" opacity="0.65"/><text x="128" y="248" fill="white" class="title">🔒</text>
+    <rect x="200" y="200" width="80" height="80" rx="8" class="lock" opacity="0.65"/><text x="228" y="248" fill="white" class="title">🔒</text>
+  </g>
+
+  <!-- Popups -->
+  <text x="40" y="705" class="title" style="font-size:22px">A. 일시정지 팝업</text>
+  <rect x="35" y="730" width="210" height="130" rx="14" fill="#fff8eb" stroke="#cdbb9f"/><text x="100" y="758" class="label">일시정지</text><rect x="60" y="775" width="160" height="28" rx="6" class="green"/><text x="114" y="794" fill="white" class="small">계속하기</text><rect x="60" y="810" width="160" height="28" rx="6" class="orange"/><text x="114" y="829" fill="white" class="small">다시 시작</text>
+  <text x="285" y="705" class="title" style="font-size:22px">B. 설정 바텀시트</text>
+  <rect x="285" y="730" width="230" height="130" rx="14" fill="#fff8eb" stroke="#cdbb9f"/><text x="378" y="758" class="label">설정</text><text x="310" y="790" class="small">배경 음악</text><circle cx="480" cy="784" r="13" class="green"/><text x="310" y="820" class="small">효과음</text><circle cx="480" cy="814" r="13" class="green"/><text x="310" y="850" class="small">진동</text><circle cx="480" cy="844" r="13" class="green"/>
+  <text x="555" y="705" class="title" style="font-size:22px">C. 이미지 상세 팝업</text>
+  <rect x="555" y="730" width="230" height="130" rx="14" fill="#fff8eb" stroke="#cdbb9f"/><rect x="585" y="750" width="170" height="70" rx="8" fill="#9bd3e7" stroke="#777"/><rect x="595" y="832" width="70" height="28" rx="6" class="blue"/><text x="618" y="851" fill="white" class="small">공유</text><rect x="685" y="832" width="70" height="28" rx="6" class="green"/><text x="708" y="851" fill="white" class="small">저장</text>
+  <text x="825" y="705" class="title" style="font-size:22px">D. 사진 퍼즐 옵션</text>
+  <rect x="825" y="730" width="250" height="130" rx="14" fill="#fff8eb" stroke="#cdbb9f"/><text x="890" y="758" class="label">사진 퍼즐 만들기</text><rect x="850" y="775" width="65" height="30" rx="6" class="panel"/><text x="865" y="795" class="small">16x16</text><rect x="925" y="775" width="65" height="30" rx="6" class="purple"/><text x="940" y="795" fill="white" class="small">32x32</text><rect x="850" y="820" width="200" height="32" rx="6" class="purple"/><text x="918" y="842" fill="white" class="small">퍼즐 만들기</text>
+  <text x="1115" y="705" class="title" style="font-size:22px">E. 다음 스테이지 확인</text>
+  <rect x="1115" y="730" width="260" height="130" rx="14" fill="#fff8eb" stroke="#cdbb9f"/><text x="1160" y="765" class="label">다음 스테이지로 이동할까요?</text><text x="1210" y="795" class="small">Lv.1 - 4</text><rect x="1145" y="815" width="90" height="34" rx="6" class="panel"/><text x="1175" y="837" class="small">취소</text><rect x="1250" y="815" width="90" height="34" rx="6" class="green"/><text x="1280" y="837" fill="white" class="small">이동</text>
+
+  <rect x="1400" y="705" width="165" height="145" rx="14" fill="#fff" stroke="#d6c6ee"/>
+  <text x="1420" y="735" class="label" fill="#6c4bb1">화면 구성 요약</text>
+  <text x="1420" y="765" class="small">핵심 페이지 4개</text>
+  <text x="1420" y="790" class="small">팝업/시트 5개</text>
+  <text x="1420" y="815" class="small">세로 모바일 최적화</text>
+  <text x="1420" y="840" class="small">원홀 드레인 퍼즐</text>
+</svg>
