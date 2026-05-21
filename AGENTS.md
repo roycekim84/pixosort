@@ -8,15 +8,18 @@ Korean title: 픽소소트: 도트 컬러 퍼즐
 
 ## Goal
 
-Build a Flutter mobile puzzle game where players sort mixed color blocks into tubes. Completed colors restore parts of a hidden pixel art image. The game targets Android and iOS.
+Build a Flutter mobile puzzle game where a pixel art image drains through one bottom-center hole like sand. The player rotates or selects the matching color tube under the hole to collect pixels by color. The game targets Android and iOS.
 
 ## Core Loop
 
 1. Player selects a stage.
-2. Player sorts color blocks between tubes.
-3. A completed color fills matching pixels on the pixel art board.
-4. All colors completed means the image is restored.
-5. The image is saved into the collection.
+2. A pixel art image appears inside a frame.
+3. Pixels move toward one bottom-center drain hole under grid-based gravity.
+4. If the active tube color matches the hole pixel color, pixels drain into that tube.
+5. Draining continues while the next hole pixel has the same color.
+6. If the hole color changes, draining pauses.
+7. Player rotates or selects the matching tube to continue.
+8. Stage clears when every color has been collected into its matching tube.
 
 ## Development Principles
 
@@ -29,6 +32,7 @@ Build a Flutter mobile puzzle game where players sort mixed color blocks into tu
 - Avoid unnecessary dependencies.
 - Do not implement monetization until the core game loop is stable.
 - Do not add online sharing, accounts, rankings, or cloud save for MVP.
+- Do not implement a standard tube-transfer color sort game. PixoSort is a one-hole pixel drain puzzle.
 
 ## Important Documents
 
@@ -57,7 +61,7 @@ lib/
         models/
         services/
       application/
-        puzzle_controller.dart
+        drain_controller.dart
       presentation/
         screens/
         widgets/
@@ -92,43 +96,68 @@ This structure may be simplified during early prototyping.
 ## Core Models To Implement First
 
 - StageDefinition
-- Tube
-- ColorBlock
-- PuzzleState
-- PuzzleMove
-- PuzzleRules
-- PuzzleController
+- PaletteColor
+- PixelCell
+- PixelGrid
+- DrainHole
+- ColorTube
+- TubeCarousel
+- DrainState
+- DrainResult
+- DrainEngine
+- GravityResolver
+- DrainController
 
 Puzzle rules must be testable without Flutter UI.
 
-## Puzzle Rules
+## Core Rules
 
-A move is valid when:
+A stage has one fixed drain hole at the bottom center of the pixel frame.
 
-- Source tube is not empty.
-- Destination tube is not full.
-- Source and destination are different.
-- Destination is empty, or destination top color equals source top color.
+A drain tick works like this:
 
-MVP should move one top block at a time.
+1. Read the pixel color at the drain hole.
+2. If the hole is empty, apply gravity and check again.
+3. Compare the hole color with the active tube color.
+4. If colors match, remove that pixel from the grid and add it to the active tube.
+5. Apply gravity to the grid.
+6. Continue auto-draining while the hole color still matches the active tube.
+7. If the hole color differs from the active tube, pause draining.
+8. Player must rotate or select the matching tube.
 
-A tube is complete when:
+Tube rules:
 
-- It is full.
-- Every block in it has the same color.
+- Color count equals tube count.
+- Each tube corresponds to one palette color.
+- A tube is complete when collectedCount equals targetCount for that color.
+- The stage is complete when all tubes are complete and the grid has no remaining pixels.
 
-When a color is completed, mark that color as restored on the pixel board.
+## Gravity Rules For MVP
+
+Use deterministic grid-based gravity, not a full physics engine.
+
+MVP gravity:
+
+- Apply vertical gravity per column.
+- Non-empty pixels fall downward into empty cells.
+- Preserve horizontal position.
+
+Do not implement diagonal sand flow until after the core prototype feels good.
 
 ## First Implementation Milestone
 
 Implement a playable prototype with:
 
 - One hardcoded stage
-- Tube UI
-- Tap source and destination controls
-- Valid move logic
-- Win detection
-- Pixel board restoration
+- Pixel frame UI
+- One bottom-center drain hole
+- Tube row or carousel UI
+- Active tube selection
+- DrainEngine tick logic
+- Vertical gravity
+- Auto-drain while colors match
+- Pause on color mismatch
+- Stage clear detection
 - Restart button
 
 ## Second Implementation Milestone
@@ -136,12 +165,11 @@ Implement a playable prototype with:
 Add:
 
 - JSON stage loading
-- Difficulty select
-- Stage select
-- Result screen
+- HomeStageScreen with difficulty tabs and stage cards
+- ClearResultDialog
 - Local progress
-- Undo
 - Basic collection
+- Basic star rating
 
 ## Third Implementation Milestone
 
@@ -156,22 +184,26 @@ Add:
 
 Add unit tests for:
 
-- Move validation
-- Move execution
-- Invalid moves
+- PixelGrid hole color read
+- Pixel removal
+- Gravity resolution
+- Drain tick success
+- Drain blocked by color mismatch
 - Tube completion
 - Stage completion
-- Undo
+- Tube carousel rotation
 - Stage JSON parsing
 
 ## UI Requirements
 
+- Mobile portrait layout first.
 - Make touch targets large enough for mobile.
-- Keep the pixel art board readable.
-- Keep tube blocks visually distinct.
-- Selected tube must have clear feedback.
-- Invalid move should show subtle feedback.
-- Completed colors should animate or visually pop.
+- Keep the pixel art frame readable.
+- Make the drain hole obvious.
+- Make active tube alignment under the hole clear.
+- Tube color and hole color must be easy to compare.
+- Mismatch should show soft blocked feedback.
+- Tube completion should animate or visually pop.
 
 ## Asset Requirements
 
@@ -181,6 +213,7 @@ Prefer compact pixel maps using palette indexes rather than storing full images.
 
 ## Do Not Do Yet
 
+- Do not implement traditional tube-to-tube block moving.
 - Do not add Supabase/Firebase.
 - Do not add user login.
 - Do not add remote stage downloads.
@@ -188,6 +221,7 @@ Prefer compact pixel maps using palette indexes rather than storing full images.
 - Do not add social feeds.
 - Do not add complex live-ops systems.
 - Do not add ads before the game is fun.
+- Do not add full physics before deterministic grid gravity works.
 
 ## Code Style
 
