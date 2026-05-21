@@ -2,7 +2,9 @@
 
 This document records the current visual direction for the PixoSort UI mockup.
 
-The uploaded concept board should be used as a visual reference while implementing the Flutter UI.
+Use this concept board as a visual reference while implementing the Flutter UI.
+
+![PixoSort UI Mockup Board](pixosort_ui_mockup_board.svg)
 
 ## Reference Board Summary
 
@@ -93,18 +95,18 @@ The mockup shows:
 
 Use overlays for pause, settings, image detail, photo puzzle options, and next-stage confirmation.
 
-## File Note
+## Implementation Note
 
-The original visual mockup image was generated in chat and should be saved into the repository as an image asset when editing from a local workstation.
+The SVG board is a simplified implementation reference derived from the chat mockup. Treat it as layout and style guidance, not final production art.
 
-Recommended path:
+The original raster mockup from chat can later be saved locally as:
 
 ```txt
 docs/design/pixosort_ui_mockup_board.jpg
 ```
 
-After saving the image, embed it here with:
+Recommended implementation order:
 
-```md
-![PixoSort UI Mockup Board](pixosort_ui_mockup_board.jpg)
-```
+1. Match the layout structure first.
+2. Implement the one-hole drain identity clearly.
+3. Polish colors, spacing, icons, and pixel art after the prototype works.
