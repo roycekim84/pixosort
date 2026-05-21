@@ -2,7 +2,7 @@
 
 ## Phase 0: Planning
 
-Goal: Define the game clearly before implementation.
+Goal: Define the one-hole drain puzzle clearly before implementation.
 
 Tasks:
 
@@ -15,29 +15,33 @@ Tasks:
 Exit criteria:
 
 - Documentation exists in the repository
-- Core game loop is clear
+- Core drain-hole game loop is clear
 - MVP scope is fixed
 
 ## Phase 1: Prototype
 
-Goal: Prove the core puzzle loop.
+Goal: Prove the one-hole pixel drain mechanic.
 
 Tasks:
 
 - Create Flutter project
-- Implement basic models: StageDefinition, Tube, PuzzleState
-- Render tubes and color blocks
-- Implement tap-to-move tube controls
-- Implement move validation
-- Implement win detection
-- Add one hardcoded test stage
-- Add simple pixel board preview
-- Fill completed colors on the board
+- Implement core models: StageDefinition, PixelGrid, DrainHole, ColorTube, TubeCarousel, DrainState
+- Render one hardcoded pixel grid inside a frame
+- Render one bottom-center drain hole
+- Render color tubes under the frame
+- Implement tube selection or rotation
+- Implement DrainEngine tick logic
+- Implement vertical grid gravity
+- Drain pixels while active tube color matches hole color
+- Pause drain when active tube color does not match hole color
+- Detect stage clear when all pixels are collected
 
 Exit criteria:
 
-- One stage can be played from start to clear
-- Sorting a color restores that color on the pixel board
+- One hardcoded stage can be played from start to clear
+- Pixels drain through one hole like sand
+- Matching tube color allows continuous draining
+- Mismatched tube color pauses draining
 
 ## Phase 2: MVP Core
 
@@ -46,15 +50,14 @@ Goal: Build the playable stage-based game.
 Tasks:
 
 - Load stage data from JSON assets
-- Add difficulty select screen
-- Add stage select screen
-- Add puzzle screen polish
-- Add result screen
+- Add HomeStageScreen with difficulty tabs and stage cards
+- Add PuzzleScreen polish
+- Add ClearResultDialog
 - Add local progress save/load
-- Add undo
+- Add basic star rating using rotation count or clear time
 - Add restart
-- Add basic star rating
 - Add 30 test stages across 3 difficulty levels
+- Add basic sound effects for drain, mismatch, and completion
 
 Exit criteria:
 
@@ -68,14 +71,13 @@ Goal: Add collection motivation and enough content.
 
 Tasks:
 
-- Add collection screen
+- Add CollectionScreen
 - Add completed image detail view
 - Add locked silhouettes
 - Expand built-in stages to 100
 - Add stage thumbnails
 - Add level progression rules
-- Add basic sound effects
-- Add simple animations
+- Add polished animations
 
 Exit criteria:
 
@@ -94,13 +96,14 @@ Tasks:
 - Add resize-to-pixel-grid logic
 - Add palette extraction
 - Add color quantization
-- Generate puzzle tubes from photo pixel data
+- Build a drainable pixel grid from the photo
+- Create color tubes based on palette counts
 - Add photo puzzle result save/share
 - Add safeguards for overly complex images
 
 Exit criteria:
 
-- User can select a photo and play it as a generated puzzle
+- User can select a photo and play it as a generated one-hole drain puzzle
 - Generated puzzles are reasonably readable
 - Photo mode does not require a backend
 
@@ -138,16 +141,17 @@ Possible tasks:
 - More theme packs
 - More photo puzzle options
 - High-resolution export
-- GIF completion animation
+- GIF drain animation export
 - Cloud backup
 - Accessibility symbols for colors
 - Extra cat mascot interactions
 - Seasonal stages
+- Advanced sand-like diagonal gravity mode
 
 ## Priority Rule
 
 Always protect the core loop first:
 
-> Sort colors -> restore pixel art -> collect the completed image.
+> Pixel image -> one drain hole -> matching color tube -> color-separated completion.
 
 Do not add large systems until this loop feels satisfying.
